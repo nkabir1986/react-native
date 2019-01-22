@@ -712,7 +712,15 @@ UIImage *__nullable RCTImageFromLocalAssetURL(NSURL *imageURL)
     } else {
       fileData = [NSData dataWithContentsOfURL:imageURL];
     }
-    image = [UIImage imageWithData:fileData];
+    
+    CGFloat scale = 1.0;
+if ([[imageURL absoluteString] hasSuffix: @"@3x.png"]) {
+  scale = 3.0;
+} else if ([[imageURL absoluteString] hasSuffix: @"@2x.png"]) {
+  scale = 2.0;
+}
+image = [UIImage imageWithData:fileData scale: scale];
+    
   }
 
   if (!image && !bundle) {
